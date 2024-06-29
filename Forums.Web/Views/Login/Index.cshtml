@@ -1,0 +1,40 @@
+﻿@model Forums.Web.Models.UserLogin
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Login/_LayoutLogin.cshtml";
+}
+
+<div class="modal-wrap">
+    <div class="modal-bodies">
+        <div class="modal-body modal-body-step-1 is-showing">
+            <div class="title">Log In</div>
+            <div class="description">Welcome again</div>
+            @Html.ValidationSummary(true, "", new { @class = "text-red" })
+            @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @id = "login" }))
+            {
+
+                @Html.AntiForgeryToken()
+                <div class="input-data">
+                    <div id="error-credential-login" class="text-red"></div>
+                    <input type="text" placeholder="Username or Email" name="Credential" id="Credential" required />
+                </div>
+                <div class="input-data">
+                    <div id="error-password-login" class="text-red"></div>
+                    <input type="password" placeholder="Password" name="Password" id="Password" style="margin-bottom:5px;" required />
+
+                </div>
+                <a href="@Url.Action("Index","ResetPassword")" style="margin-bottom: 20px; margin-left: 280px; " class="btn-link">Reset password</a>
+                <div class="text-center">
+                    <input type="submit" value="Login" class="button" style="width:200px; margin-top:5px;">
+                </div>
+
+                <script src="~/js/login.js"></script>
+                <hr>
+
+                <div class="text-center"> Don't have an account? <a href="@Url.Action("Index","Register")" class="btn-link">Sign up</a></div>
+                <div class="text-center"> Go back to <a href="@Url.Action("HomePage","Home")" class="btn-link">HomePage</a></div>
+            }
+        </div>
+    </div>
+</div>
+<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>

@@ -1,0 +1,70 @@
+﻿@model Forums.Web.Models.PostData
+﻿@{
+    ViewBag.Title = "Post";
+    Layout = "~/Views/Post/_LayoutPost.cshtml";
+}
+    <section class="main-content920">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="ask-question-input-part032">
+                        <h4>CREATE POST</h4>
+                        <hr>
+                        @Html.ValidationSummary(true, "", new { @class = "text-red" })
+                        @using (Html.BeginForm("Index", "Post", FormMethod.Post, new { @id = "post" }))
+                        {
+                            @Html.AntiForgeryToken()
+                        @Html.AntiForgeryToken()
+
+                        <div class="question-title39">
+                            <span class="form-description433">Title</span>
+                            @Html.TextBoxFor(model => model.Title, new { @class = "question-ttile32 form-control", placeholder = "Write title here ..." })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                        <div class="details2-239">
+                            <div class="col-md-12 nopadding">
+                                <div class="text-area">
+                                    @Html.LabelFor(model => model.Content)
+                                    @Html.TextAreaFor(model => model.Content, new { @class = "form-control", rows = 6, id = "tiny" })
+                                    @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        @* <div class="button-group-addfile3239">
+                    <span class="form-description23993">Image</span>
+                    <input type="file" name="ffile" class="question-ttile3226">
+                    </div> *@
+
+                            <div class="publish-button2389">
+                                <button type="submit" class="publis1291">Publish your post</button>
+                            </div>
+                       }
+                    </div>
+                </div>               
+            </div>
+        </div>
+    </section>
+    <br/>
+    <br/>
+<section class="footer-social">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <p>Copyright 2033 #BlogHub | <strong>HardCore</strong></p>
+            </div>
+
+        </div>
+    </div>
+</section>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="~/js/jquery-3.1.1.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/editor.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#txtEditor").Editor();
+        });
+    </script>

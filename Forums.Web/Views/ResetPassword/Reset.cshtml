@@ -1,0 +1,121 @@
+@model Forums.Web.Models.UserRegister
+@{
+    ViewBag.Title = "Reset";
+    Layout = "~/Views/ResetPassword/_LayoutResetPassword.cshtml";
+}
+
+<div class="modal-wrap">
+    <div class="modal-bodies">
+        <div class="modal-body modal-body-step-1 is-showing">
+            <div class="title">Reset password</div>
+            @Html.ValidationSummary(true, "", new { @class = "text-red" })
+            @using (Html.BeginForm("ResettingProcess", "ResetPassword", FormMethod.Post, new { @id = "reset-password" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="input-data">
+                    <div id="error-password" class="text-red"></div>
+                    <div class="accept-data-arrow"><span id="password-accept-data"></span></div>
+                    <input type="password" placeholder="Password" name="Password" id="Password" required />
+                </div>
+                <div class="input-data">
+                    <div id="error-con-password" class="text-red"></div>
+                    <div class="accept-data-arrow"><span id="con-password-accept-data"></span></div>
+                    <input type="password" placeholder="Confirm password" name="ConPassword" id="ConPassword" required />
+                </div>
+                <div class="col-md-4">
+                    <div class="row text-center sign-with">
+                        <div class="col-md-12 sign-in28912">
+                            <div class="btn-group btn-group-justified">
+                                <input type="submit" value="Reset password" class="button" style="width:100%" id="resetPasswordButton">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#reset-password').submit(function(e) {
+        e.preventDefault();
+
+        var messagePassword = [];
+        var messageConPassword = [];
+
+        var password = $('#Password').val();
+        var conPassword = $('#ConPassword').val();
+
+        var passwordAccept = $('#password-accept-data');
+        var conPasswordAccept = $('#con-password-accept-data');
+
+        var errorPassword = $('#error-password');
+        var errorConPassword = $('#error-con-password');
+
+        errorPassword.text('');
+        errorConPassword.text('');
+
+        if (password.length <= 7) {
+            messagePassword.push('Password MINIM 8 characters');
+            passwordAccept.text('');
+        }
+        if (password.length > 50) {
+            messagePassword.push('Password MAXIM 50 characters');
+            passwordAccept.text('');
+        }
+        if (conPassword.length <= 7) {
+            messageConPassword.push('Password MINIM 8 characters');
+            conPasswordAccept.text('');
+        }
+        if (conPassword.length > 50) {
+            messageConPassword.push('Password MAXIM 50 characters');
+            conPasswordAccept.text('');
+        }
+        if (password !== conPassword) {
+            messagePassword.push('Passwords are not identical');
+            messageConPassword.push('Passwords are not identical');
+            passwordAccept.text('');
+            conPasswordAccept.text('');
+        }
+
+        if (messagePassword.length > 0) {
+            errorPassword.text(messagePassword.join(', '));
+        }
+        if (messageConPassword.length > 0) {
+            errorConPassword.text(messageConPassword.join(', '));
+        }
+
+        if (messagePassword.length === 0 && messageConPassword.length === 0) {
+            var formData = {
+                Password: password,
+                ConPassword: conPassword,
+                __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+            };
+
+            $.ajax({
+                url: '@Url.Action("ResettingProcess", "ResetPassword")',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        alert('Password reset successful. Redirecting to login page.');
+                        var newWindow = window.open('@Url.Action("Index", "Login")', '_blank');
+                        if (newWindow) {
+                            newWindow.focus();
+                            window.close();
+                        }
+                    } else {
+                        alert('Error resetting password. Please try again.');
+                    }
+                },
+                error: function() {
+                    alert('Error resetting password. Please try again.');
+                }
+            });
+        }
+    });
+});
+</script>
+

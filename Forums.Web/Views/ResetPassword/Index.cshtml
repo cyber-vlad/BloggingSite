@@ -1,0 +1,88 @@
+﻿@model Forums.Web.Models.UserRegister
+@{
+    ViewBag.Title = "ResetPassword";
+    Layout = "~/Views/ResetPassword/_LayoutResetPassword.cshtml";
+}
+
+<div class="modal-wrap">
+    <div class="modal-bodies">
+        <div class="modal-body modal-body-step-1 is-showing">
+            <div class="title">Reset password</div>
+
+            @Html.ValidationSummary(true, "", new { @class = "text-red" })
+            @using (Html.BeginForm("Index", "ResetPassword", FormMethod.Post, new { @id = "reset" }))
+            {
+                @Html.AntiForgeryToken()
+
+                @* <div class="input-data">
+                    <input type="email" placeholder="Enter your email" name="Email" id="Email" value="@Request.Form["Email"]" required />
+                </div> *@
+                <div class="input-data">
+                    @Html.TextBoxFor(m => m.Email, new { placeholder = "Enter your email", required = "required" })
+                </div>
+                <div class="col-md-4">
+                    <div class="row text-center sign-with">
+                        <div class="col-md-12 sign-in28912">
+                            <div class="btn-group btn-group-justified">
+                                <input type="submit" value="Send" class="button" style="width:100%" id="sendLinkButton">
+                            </div>
+                        </div>
+
+                        <br>
+                        Have already an account? <a href="/login/index" class="btn-link">Login</a>
+                        <hr>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#sendLinkButton').click(function(e) {
+            e.preventDefault();
+            
+            var email = $('#Email').val();
+            if (email)
+            {
+                disableButtonTemporarily();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Index", "ResetPassword")',
+                    data: {
+                        email: email,
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert('Email sent successfully!');
+                            
+                        } else {
+                            alert('Email is not registered! ');
+                        }
+                    },
+                    error: function() {
+                        alert('Error sending email. Please try again.');
+                    }
+                });
+            }
+            else {
+                alert('Please enter a valid email address.');
+            }
+        });
+
+        function disableButtonTemporarily() {
+            var button = $('#sendLinkButton');
+            button.prop('disabled', true);
+            button.prop("value", "Wait...");
+
+            setTimeout(function () {
+                button.prop("value", "Try again?");
+                button.prop('disabled', false);
+            }, 10000); 
+        }
+    });
+    </script>
+<script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+

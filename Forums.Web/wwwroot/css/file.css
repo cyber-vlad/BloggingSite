@@ -1,0 +1,23 @@
+﻿.title {
+    padding-left: 175px;
+    padding-top: 10px;
+    color: #fff;
+    display: block;
+    margin-top: -20px;
+}
+
+.btn {
+    padding: 10px 50px;
+    border-radius: 3px;
+    background: #272727;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+    .btn:hover {
+        background: #17181c;
+        color: white;
+    }

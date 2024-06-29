@@ -1,0 +1,25 @@
+<section class="welcome-part-one">
+    <div class="container">
+        <div class="welcome-demop102 text-center">
+            <h2>"In #BlogHub thoughts become Captivating Stories, Inspiring Narratives <br> and Meaningful Experiences."</h2>
+            <p>
+                Welcome to our blog creation platform! Our website offers a user-friendly interface for crafting personalized blogs that correspond to your unique interests and passions.
+                <br> Whether you're a experienced writer or just starting out, our user-friendly interface offers intuitive tools to bring your ideas to life. Start crafting your posts now!
+            </p>
+
+            <div class="text-center">
+                 @{
+                    if ((bool)ViewBag.isAuthenticated)
+                    {
+                        <a href="/post/index"><div class="btn">Create an Article</div></a>
+                    }
+                    else
+                    {
+                        <a href="/login/index"><div class="btn">Create an Article</div></a>
+                    }
+                }
+            </div>
+
+        </div>
+    </div>
+</section>
