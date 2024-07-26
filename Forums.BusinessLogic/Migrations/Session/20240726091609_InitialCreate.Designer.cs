@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Forums.BusinessLogic.Migrations
+namespace Forums.BusinessLogic.Migrations.Session
 {
-    [DbContext(typeof(PostContext))]
-    [Migration("20240613110414_PostMigration")]
-    partial class PostMigration
+    [DbContext(typeof(SessionContext))]
+    [Migration("20240726091609_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,31 +25,29 @@ namespace Forums.BusinessLogic.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Forums.Domain.Entities.Posts.Post", b =>
+            modelBuilder.Entity("Forums.Domain.Entities.User.Session", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("SessionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SessionId"));
 
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
+                    b.Property<string>("CookieString")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateOfCreation")
+                    b.Property<DateTime>("ExpireTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
-                    b.HasKey("Id");
+                    b.HasKey("SessionId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Sessions");
                 });
 #pragma warning restore 612, 618
         }

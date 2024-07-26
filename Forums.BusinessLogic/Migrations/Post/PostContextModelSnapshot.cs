@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Forums.BusinessLogic.Migrations
+namespace Forums.BusinessLogic.Migrations.Post
 {
     [DbContext(typeof(PostContext))]
     partial class PostContextModelSnapshot : ModelSnapshot
